@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Never commit credentials
+*.p8
+*.pem
+*.key
+.env
+.env.*
+.envrc
+
+# Files the kit writes in your working directory
+asc-journal.jsonl
+/analytics/
+/sales/
+reviews*.csv
+reviews*.jsonl
+*.part
+
+# Build products
+*.xcarchive/
+*.ipa
+*.dSYM.zip
+
+# OS
+.DS_Store
+._*

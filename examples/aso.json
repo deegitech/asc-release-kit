@@ -1,0 +1,40 @@
+{
+  "_comment": "Metadata for a fictional app. Only the fields present here are written.",
+  "app": {"id": "1234567890", "version": "1.2.0", "platform": "IOS"},
+  "denylist": ["SomeCompetitor"],
+  "localizations": {
+    "en-US": {
+      "name": "Tile Garden: Calm Puzzles",
+      "subtitle": "Relaxing match-three levels",
+      "keywords": "brain,zen,offline,casual,logic,blocks,colors,stress,mind,flower,cozy,board",
+      "promotionalText": "Autumn update: 50 new levels and a cozy new soundtrack.",
+      "description": "Tile Garden is a calm puzzle game about growing a garden one tile at a time.\n\nMatch three flowers to clear the board, plan a few moves ahead, and watch your garden bloom. There are no timers and no pressure: play a level in a minute or take your time.\n\nFEATURES\n- 300 hand-made levels\n- Plays offline\n- A quiet soundtrack and gentle animations\n- One-handed controls\n\nQuestions or ideas? Visit the support page linked below.",
+      "whatsNew": "50 new autumn levels, smoother animations and bug fixes.",
+      "supportUrl": "https://example.com/support",
+      "marketingUrl": "https://example.com",
+      "privacyPolicyUrl": "https://example.com/privacy"
+    },
+    "en-GB": {
+      "name": "Tile Garden: Calm Puzzles",
+      "subtitle": "Relaxing match-three levels",
+      "keywords": "brain,zen,offline,casual,logic,blocks,colours,stress,mind,flower,cosy,board",
+      "promotionalText": "Autumn update: 50 new levels and a cosy new soundtrack.",
+      "description": "Tile Garden is a calm puzzle game about growing a garden one tile at a time.\n\nMatch three flowers to clear the board, plan a few moves ahead, and watch your garden bloom. There are no timers and no pressure: play a level in a minute or take your time.\n\nFEATURES\n- 300 hand-made levels\n- Plays offline\n- A quiet soundtrack and gentle animations\n- One-handed controls\n\nQuestions or ideas? Visit the support page linked below.",
+      "whatsNew": "50 new autumn levels, smoother animations and bug fixes.",
+      "supportUrl": "https://example.com/support",
+      "marketingUrl": "https://example.com",
+      "privacyPolicyUrl": "https://example.com/privacy"
+    },
+    "de-DE": {
+      "name": "Tile Garden: Ruhige Rätsel",
+      "subtitle": "Entspannte Match-3-Level",
+      "keywords": "denkspiel,logik,offline,entspannung,blumen,farben,zen,gehirn,knobeln,legespiel",
+      "promotionalText": "Herbst-Update: 50 neue Level und ein gemütlicher neuer Soundtrack.",
+      "description": "Tile Garden ist ein ruhiges Puzzlespiel: Lass deinen Garten Stein für Stein wachsen.\n\nKombiniere drei Blumen, um das Feld zu leeren, plane ein paar Züge voraus und sieh zu, wie dein Garten aufblüht. Keine Zeitlimits, kein Druck.\n\nFUNKTIONEN\n- 300 handgemachte Level\n- Offline spielbar\n- Ruhige Musik und sanfte Animationen\n- Mit einer Hand spielbar",
+      "whatsNew": "50 neue Herbst-Level, flüssigere Animationen und Fehlerbehebungen.",
+      "supportUrl": "https://example.com/de/support",
+      "marketingUrl": "https://example.com/de",
+      "privacyPolicyUrl": "https://example.com/de/privacy"
+    }
+  }
+}

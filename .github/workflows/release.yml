@@ -1,0 +1,62 @@
+name: Release
+
+# Pushing a version tag (v0.1.0, ...) builds the sdist and wheel and publishes them
+# to PyPI with Trusted Publishing: no API token is stored anywhere. One-time setup
+# on PyPI: add a (pending) trusted publisher for this repository, workflow
+# release.yml, environment "pypi", then set the repository variable PYPI_PUBLISH=true.
+# Until then the publish job is skipped and nothing is uploaded.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build sdist and wheel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Check that the tag matches the package version
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")"
+          if [ "v${version}" != "${TAG}" ]; then
+            echo "Tag ${TAG} doesn't match the version in pyproject.toml (${version})." >&2
+            exit 1
+          fi
+      - name: Build
+        run: |
+          python -m pip install build
+          python -m build
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+
+  publish:
+    name: publish to PyPI
+    needs: build
+    # Only after the PyPI trusted publisher exists: set the repository variable PYPI_PUBLISH=true
+    if: vars.PYPI_PUBLISH == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/asc-release-kit/
+    permissions:
+      id-token: write # Trusted Publishing: a short-lived OIDC token instead of a stored secret
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2

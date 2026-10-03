@@ -1,0 +1,6 @@
+No account or login is needed. Tap Play on the start screen to begin level 1.
+
+The in-app purchase "Remove Ads" is in Settings > Shop. Use a Sandbox Apple Account
+to test it; "Restore Purchases" is on the same screen.
+
+The app works offline. It doesn't collect personal data.

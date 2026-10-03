@@ -1,0 +1,13 @@
+# Terms that must never appear in the name, subtitle, keywords or promotional text
+# (App Review Guideline 2.3.7). One term per line; matching is case-insensitive and
+# whole-word. A line starting with "# " (hash + space) is a comment; "#1" is a term.
+
+# Other apps and brands (replace with the ones relevant to you)
+SomeCompetitor
+Another Brand
+
+# Pricing and ranking claims
+free
+sale
+discount
+#1

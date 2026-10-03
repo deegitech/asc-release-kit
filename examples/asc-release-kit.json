@@ -1,0 +1,21 @@
+{
+  "_comment": "Same settings as asc-release-kit.toml, for Python 3.10 without tomli. Identifiers and preferences only: no secrets, and no ASC_SIGNER / ASC_OPENSSL / ASC_API_BASE_URL (environment only).",
+  "auth": {
+    "key_id": "ABC123DEFG",
+    "issuer_id": "00000000-0000-0000-0000-000000000000",
+    "key_type": "team",
+    "private_key_path": "~/.config/asc-release-kit/AuthKey_ABC123DEFG.p8",
+    "token_ttl_seconds": 900
+  },
+  "app": {
+    "id": "1234567890",
+    "platform": "IOS",
+    "bundle_id": "com.example.mygame"
+  },
+  "reports": {
+    "vendor_number": "87654321"
+  },
+  "journal": {
+    "path": "asc-journal.jsonl"
+  }
+}

@@ -1,0 +1,60 @@
+name: Bug report
+description: Something doesn't work as documented.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! **Never paste API keys, tokens, key IDs, issuer IDs, app IDs,
+        vendor numbers or personal data.** Replace them with placeholders such as
+        `ABC123DEFG` or `1234567890`. Security problems go to the Security tab instead.
+  - type: input
+    id: command
+    attributes:
+      label: Command
+      description: The command you ran, with identifiers replaced by placeholders.
+      placeholder: asc-release-kit release --version 1.2.0 --build 42 --apply
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Output (the kit masks secrets, but please double-check) and the exit code.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Output of `asc-release-kit doctor` (optional)
+      description: It masks the key ID, issuer ID, key path and vendor number; replace the app ID with 1234567890.
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: asc-release-kit version
+      placeholder: "0.1.0 (asc-release-kit --version)"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Python version and OS
+      placeholder: Python 3.12, macOS 26
+    validations:
+      required: true
+  - type: dropdown
+    id: api
+    attributes:
+      label: Is this about App Store Connect itself behaving differently?
+      options:
+        - "No, it's a bug in the kit"
+        - "Yes, the API answered something unexpected (please add the date, endpoint and status code)"
+        - "Not sure"

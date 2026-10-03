@@ -1,0 +1,32 @@
+# asc-release-kit configuration: identifiers and preferences only.
+# The kit refuses private keys, tokens and passwords in this file.
+# Copy it to ./asc-release-kit.toml in your project, or pass --config PATH.
+# Environment variables (ASC_*) and command-line flags override these values.
+#
+# A config file can come from a branch or pull request you haven't reviewed, so
+# the settings that decide where credentials go are read from the environment
+# only: ASC_SIGNER, ASC_OPENSSL and ASC_API_BASE_URL. The kit refuses them here.
+
+[auth]
+key_id = "ABC123DEFG"
+issuer_id = "00000000-0000-0000-0000-000000000000"   # omit for individual keys
+key_type = "team"                                   # "team" or "individual"
+
+# Exactly ONE private key source:
+private_key_path = "~/.config/asc-release-kit/AuthKey_ABC123DEFG.p8"   # must be chmod 600
+# keychain_service = "asc-release-kit"            # macOS Keychain generic password
+# keychain_account = "ABC123DEFG"
+# ssm_parameter = "/example/asc/private-key"     # AWS SSM SecureString (needs the aws CLI)
+
+token_ttl_seconds = 900   # 60-1200 (Apple's maximum is 20 minutes)
+
+[app]
+id = "1234567890"                 # the app's Apple ID (`asc-release-kit apps list` shows it)
+platform = "IOS"                  # IOS, MAC_OS, TV_OS or VISION_OS
+bundle_id = "com.example.mygame"  # upload-build refuses builds with another bundle ID
+
+[reports]
+vendor_number = "87654321"        # Payments and Financial Reports
+
+[journal]
+path = "asc-journal.jsonl"        # relative to the project; add it to .gitignore

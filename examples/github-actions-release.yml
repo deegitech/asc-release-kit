@@ -1,0 +1,80 @@
+# Example workflow: a manually started App Store release from GitHub Actions.
+# Copy to .github/workflows/release.yml in YOUR app's repository and adjust paths.
+#
+# Repository settings:
+#   secret   ASC_PRIVATE_KEY  the full PEM text of AuthKey_<KEY_ID>.p8
+#   variable ASC_KEY_ID, ASC_ISSUER_ID, ASC_APP_ID  (identifiers, not secrets)
+# Put the job in a protected environment with required reviewers so a person
+# approves every run that can submit for review.
+#
+# Hardening in this example:
+#   * the private key is given only to the steps that call App Store Connect,
+#     not to checkout, setup-python, pip or upload-artifact;
+#   * actions are pinned to full commit SHAs (Dependabot can keep them current);
+#   * the kit is installed from a commit you reviewed, not from a movable tag.
+name: Release to App Store Connect
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version string, e.g. 1.2.0"
+        required: true
+      build:
+        description: "Build number, e.g. 42"
+        required: true
+      submit:
+        description: "Submit for App Review after verification"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: app-store
+    env:
+      ASC_KEY_ID: ${{ vars.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ vars.ASC_ISSUER_ID }}
+      ASC_APP_ID: ${{ vars.ASC_APP_ID }}
+      # Inputs go through the environment, never straight into the script (avoids injection).
+      VERSION: ${{ inputs.version }}
+      BUILD: ${{ inputs.build }}
+      SUBMIT: ${{ inputs.submit }}
+      # Replace with the full commit SHA of the asc-release-kit release you reviewed.
+      KIT_COMMIT: "<full commit SHA of the asc-release-kit release>"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Install asc-release-kit
+        run: python -m pip install "asc-release-kit[crypto] @ git+https://github.com/deegitech/asc-release-kit@${KIT_COMMIT}"
+      - name: Check the setup (read-only; prints the fix for anything that fails)
+        env:
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+        run: asc-release-kit doctor
+      - name: Validate metadata
+        run: asc-release-kit aso validate store/aso.json --strict
+      - name: Plan
+        env:
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+        run: asc-release-kit release --version "$VERSION" --build "$BUILD" --whats-new store/whats-new.json --wait-for-build 30
+      - name: Apply (and submit if requested)
+        env:
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+        run: |
+          set -- --version "$VERSION" --build "$BUILD" --whats-new store/whats-new.json --wait-for-build 30 --apply
+          if [ "$SUBMIT" = "true" ]; then set -- "$@" --submit; fi
+          asc-release-kit release "$@"
+      - name: Keep the journal (contact details are already redacted)
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: asc-journal
+          path: asc-journal.jsonl
+          if-no-files-found: ignore
