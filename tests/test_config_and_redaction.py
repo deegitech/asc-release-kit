@@ -20,7 +20,7 @@ if not TOML_OK:  # pragma: no cover - depends on the interpreter
 
         TOML_OK = True
     except ImportError:
-        pass
+        pass  # tomli missing: the TOML tests are skipped
 
 
 class ConfigTests(unittest.TestCase):
